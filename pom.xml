@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.despegar.fulfillment.scm</groupId>
+        <artifactId>ff-scm-master-pom</artifactId>
+        <version>2.0.12</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.despegar.fulfillment</groupId>
+    <artifactId>fas-txm</artifactId>
+    <version>2.2.1-SNAPSHOT</version>
+
+    <scm>
+        <connection>scm:git:git@github.com:despegar/fas-txm.git</connection>
+        <developerConnection>scm:git:git@github.com:despegar/fas-txm.git</developerConnection>
+        <url>https://github.com/despegar/fas-txm</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+
+        <!--Begin master pom variables -->
+        <port>9291</port>
+        <endpoint>fas-txm</endpoint>
+        <main-class>com.despegar.fulfillment.fas.txm.App</main-class>
+        <health-check-token>fastxmsauth</health-check-token>
+        <health-check-timeout>180</health-check-timeout>
+        <shutdown-timeout>90</shutdown-timeout>
+        <!--End master pom variables -->
+
+        <fasterxml.version>2.9.8</fasterxml.version>
+        <jackson-databind.version>2.9.10.1</jackson-databind.version>
+        <spring.version>4.2.6.RELEASE</spring.version>
+        <slf4j-api.version>1.7.2</slf4j-api.version>
+        <logback-classic.version>1.1.5</logback-classic.version>
+        <logging.version>0.0.4</logging.version>
+        <newrelic.version>3.38.0</newrelic.version>
+        <hazelcast.version>3.6.2</hazelcast.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <junit.version>4.12</junit.version>
+        <wiremock.version>2.5.1</wiremock.version>
+        <commons-io.version>2.5</commons-io.version>
+        <httpclient.version>4.5.1</httpclient.version>
+        <fas-api.version>1.10.60</fas-api.version>
+        <guava.version>18.0</guava.version>
+        <mockito-java8.version>2.1.0</mockito-java8.version>
+        <library-rest.version>1.0.17</library-rest.version>
+        <library-snapshot.version>0.0.6</library-snapshot.version>
+        <jetty-spring-server.version>3.2.21</jetty-spring-server.version>
+        <ff.lookout.version>0.0.26</ff.lookout.version>
+        <ff.lookout.bridge.version>0.0.21</ff.lookout.bridge.version>
+        <command-flow.lookout-bridge.version>1.2</command-flow.lookout-bridge.version>
+        <library.utils.version>1.0.12</library.utils.version>
+        <hibernate.version>5.3.6.Final</hibernate.version>
+        <mysql-connector.version>6.0.5</mysql-connector.version>
+        <hikari.version>2.5.1</hikari.version>
+        <quartz-scheduler.version>2.2.3</quartz-scheduler.version>
+        <maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
+        <atp3-client.version>2.2.1</atp3-client.version>
+        <ff-properties.version>1.6.12</ff-properties.version>
+        <!-- this is only added to be able to exclude a conflicting dependency -->
+        <reflections.version>0.9.10</reflections.version>
+        <yauaa.version>5.6</yauaa.version>
+        <command-flow.engine.version>2.4.3</command-flow.engine.version>
+        <command-flow.mysql-service.version>2.1.7</command-flow.mysql-service.version>
+        <command-flow.tomcat-jdbc.version>8.5.19</command-flow.tomcat-jdbc.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.despegar.fulfillment.library</groupId>
+                <artifactId>jetty-spring-server</artifactId>
+                <version>${jetty-spring-server.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- quartz -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz-scheduler.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz-jobs</artifactId>
+                <version>${quartz-scheduler.version}</version>
+            </dependency>
+
+            <!-- fasterxml -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${fasterxml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${fasterxml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-guava</artifactId>
+                <version>${fasterxml.version}</version>
+            </dependency>
+
+            <!-- despegar library -->
+            <dependency>
+                <groupId>com.despegar.library</groupId>
+                <artifactId>logging</artifactId>
+                <version>${logging.version}</version>
+            </dependency>
+
+            <!-- mockito -->
+            <dependency>
+                <groupId>info.solidsoft.mockito</groupId>
+                <artifactId>mockito-java8</artifactId>
+                <version>${mockito-java8.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.10.0</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>net.bytebuddy</groupId>
+                        <artifactId>byte-buddy</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- spring -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>1.2.1.RELEASE</version>
+            </dependency>
+            <!-- aspectj -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.8.8</version>
+            </dependency>
+
+            <!-- logger -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback-classic.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- fas-api -->
+            <dependency>
+                <groupId>com.despegar.fulfillment</groupId>
+                <artifactId>fas-api</artifactId>
+                <version>${fas-api.version}</version>
+            </dependency>
+
+            <!-- newrelic -->
+            <dependency>
+                <groupId>com.newrelic.agent.java</groupId>
+                <artifactId>newrelic-api</artifactId>
+                <version>${newrelic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <!-- hazelcast -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>${hazelcast.version}</version>
+            </dependency>
+
+            <!-- commons-httpclient -->
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>${commons-httpclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- commons-collections -->
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+
+            <!-- junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- wiremock -->
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock</artifactId>
+                <version>${wiremock.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-util</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-http</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-io</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- commons-io -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- utils -->
+            <dependency>
+                <groupId>com.despegar.fulfillment.library</groupId>
+                <artifactId>utils</artifactId>
+                <version>${library.utils.version}</version>
+            </dependency>
+
+            <!-- fulfillment-rest -->
+            <dependency>
+                <groupId>com.despegar.fulfillment.library</groupId>
+                <artifactId>rest</artifactId>
+                <version>${library-rest.version}</version>
+            </dependency>
+
+            <!-- fulfillment-snapshot -->
+            <dependency>
+                <groupId>com.despegar.fulfillment.library</groupId>
+                <artifactId>snapshot</artifactId>
+                <version>${library-snapshot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.despegar.fulfillment.library</groupId>
+                        <artifactId>rest</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Lookout -->
+            <dependency>
+                <groupId>com.despegar.fulfillment.library</groupId>
+                <artifactId>lookout</artifactId>
+                <version>${ff.lookout.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.despegar.command-flow</groupId>
+                <artifactId>lookout-bridge</artifactId>
+                <version>${command-flow.lookout-bridge.version}</version>
+            </dependency>
+
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <!-- MySql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+
+            <!-- HikariCP -->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikari.version}</version>
+            </dependency>
+
+            <!-- reflections -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- atp3-client -->
+            <dependency>
+                <groupId>com.despegar.atp</groupId>
+                <artifactId>atp3-java-client</artifactId>
+                <version>${atp3-client.version}</version>
+            </dependency>
+
+            <!-- commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.6</version>
+            </dependency>
+
+            <!-- fulfillment-properties -->
+            <dependency>
+                <groupId>com.despegar.fulfillment.library</groupId>
+                <artifactId>ff-properties</artifactId>
+                <version>${ff-properties.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- yauaa -->
+            <dependency>
+                <groupId>nl.basjes.parse.useragent</groupId>
+                <artifactId>yauaa</artifactId>
+                <version>${yauaa.version}</version>
+            </dependency>
+
+            <!-- Command flow -->
+            <dependency>
+                <groupId>com.despegar.command-flow</groupId>
+                <artifactId>command-flow</artifactId>
+                <version>${command-flow.engine.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.despegar.command-flow</groupId>
+                <artifactId>mysql-service</artifactId>
+                <version>${command-flow.mysql-service.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${command-flow.tomcat-jdbc.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.despegar.fulfillment.library</groupId>
+            <artifactId>jetty-spring-server</artifactId>
+        </dependency>
+
+        <!-- quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+        </dependency>
+
+        <!-- fasterxml -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-guava</artifactId>
+        </dependency>
+
+        <!-- despegar library -->
+        <dependency>
+            <groupId>com.despegar.library</groupId>
+            <artifactId>logging</artifactId>
+        </dependency>
+
+        <!-- mockito -->
+        <dependency>
+            <groupId>info.solidsoft.mockito</groupId>
+            <artifactId>mockito-java8</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+        <!-- aspectj -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <!-- logger -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <!-- fas-api -->
+        <dependency>
+            <groupId>com.despegar.fulfillment</groupId>
+            <artifactId>fas-api</artifactId>
+        </dependency>
+
+        <!-- newrelic -->
+        <dependency>
+            <groupId>com.newrelic.agent.java</groupId>
+            <artifactId>newrelic-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <!-- hazelcast -->
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
+
+        <!-- commons-httpclient -->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- commons-collections -->
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- wiremock -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+        </dependency>
+
+        <!-- commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <!-- utils -->
+        <dependency>
+            <groupId>com.despegar.fulfillment.library</groupId>
+            <artifactId>utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- fulfillment-rest -->
+        <dependency>
+            <groupId>com.despegar.fulfillment.library</groupId>
+            <artifactId>rest</artifactId>
+        </dependency>
+
+        <!-- fulfillment-snapshot -->
+        <dependency>
+            <groupId>com.despegar.fulfillment.library</groupId>
+            <artifactId>snapshot</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.despegar.fulfillment.library</groupId>
+                    <artifactId>rest</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Lookout -->
+        <dependency>
+            <groupId>com.despegar.fulfillment.library</groupId>
+            <artifactId>lookout</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.despegar.command-flow</groupId>
+            <artifactId>lookout-bridge</artifactId>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.common</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>5.0.4.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- MySql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- HikariCP -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+
+        <!-- reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- fulfillment-properties -->
+        <dependency>
+            <groupId>com.despegar.fulfillment.library</groupId>
+            <artifactId>ff-properties</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- yauaa -->
+        <dependency>
+            <groupId>nl.basjes.parse.useragent</groupId>
+            <artifactId>yauaa</artifactId>
+        </dependency>
+
+        <!-- command-flow -->
+        <dependency>
+            <groupId>com.despegar.command-flow</groupId>
+            <artifactId>command-flow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.despegar.command-flow</groupId>
+            <artifactId>mysql-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>version</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/log4j.properties</exclude>
+                        <exclude>**/log4j.xml</exclude>
+                        <exclude>**/logback.xml</exclude>
+                        <exclude>**/conf/env/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>${maven.surefire.plugin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.despegar.deploys</groupId>
+                <artifactId>cloudia-java8-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>cloudia</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>tar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
